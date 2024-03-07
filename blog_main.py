@@ -1,9 +1,12 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+import sqlalchemy as sa
+import sqlalchemy.orm as so
+from app import create_app, db
+from app.models import User, Post, Message, Notification, Task
 
-class LoginForm(FlaskForm):
-username = StringField('Username', validators=[DataRequired()])
-password = PasswordField('Password', validators=[DataRequired()])
-remember_me = BooleanField('Remember Me')
-submit = SubmitField('Sign In')
+app = create_app()
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post,
+            'Message': Message, 'Notification': Notification, 'Task': Task}
